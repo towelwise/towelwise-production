@@ -1,76 +1,92 @@
-# Visual Studio Code - Open Source ("Code - OSS")
-[![Feature Requests](https://img.shields.io/github/issues/microsoft/vscode/feature-request.svg)](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-[![Bugs](https://img.shields.io/github/issues/microsoft/vscode/bug.svg)](https://github.com/microsoft/vscode/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
-
-## The Repository
-
-This repository ("`Code - OSS`") is where we (Microsoft) develop the [Visual Studio Code](https://code.visualstudio.com) product together with the community. Not only do we work on code and issues here, but we also publish our [roadmap](https://github.com/microsoft/vscode/wiki/Roadmap), [monthly iteration plans](https://github.com/microsoft/vscode/wiki/Iteration-Plans), and our [endgame plans](https://github.com/microsoft/vscode/wiki/Running-the-Endgame). This source code is available to everyone under the standard [MIT license](https://github.com/microsoft/vscode/blob/main/LICENSE.txt).
-
-## Visual Studio Code
-
 <p align="center">
-  <img alt="VS Code in action" src="https://github.com/user-attachments/assets/56af271c-949d-454c-a3ea-16188c063414">
+  <img alt="Towelwise AI" src="towelwise/ide/icons/code-icon.svg" width="96">
 </p>
 
-[Visual Studio Code](https://code.visualstudio.com) is a distribution of the `Code - OSS` repository with Microsoft-specific customizations released under a traditional [Microsoft product license](https://code.visualstudio.com/License/).
+<h1 align="center">Towelwise AI</h1>
 
-[Visual Studio Code](https://code.visualstudio.com) combines the simplicity of a code editor with what developers need for their core edit-build-debug cycle. It provides comprehensive code editing, navigation, and understanding support along with lightweight debugging, a rich extensibility model, and lightweight integration with existing tools.
+<p align="center"><strong>YOUR IDE Built for Hyperspace.</strong> <em>Don't Panic.</em></p>
 
-Visual Studio Code is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux on the [Visual Studio Code website](https://code.visualstudio.com/Download). To get the latest releases every day, install the [Insiders build](https://code.visualstudio.com/insiders).
+Towelwise AI is a workspace built around AI agents and extensions, for people who mainly build by directing agents. Its layout is meant to make that way of working feel natural while keeping the code easy to inspect. It is a fork of Code-OSS, built with VSCodium's build scripts (pinned to VSCodium 1.143.17232).
+
+Towelwise AI does not bundle any AI agent and never drives one. You install the agents you already use and work with them in their own panels.
+
+## Where it is going
+
+Towelwise is being built from scratch in the IDE's core around these goals:
+
+- **The layout is part of the product.** Towelwise owns the workspace layout and menus and keeps what fits a workflow of directing agents.
+- **Simpler menus.** Menus such as Select, Run and Go are being reviewed, keeping only the actions that still matter when agents do most of the editing.
+- **Code stays easy to inspect.** File browsing, syntax highlighting and a read-only code view stay, so you can follow what the agents change.
+- **A focused Command Palette.** Commands for working with agents come first, with less clutter from general editor features.
+- **Walkthrough screens** that explain the workspace, its layout and how to work with agents.
+- **One consistent visual theme.**
+- **Featured cells, later.** Dedicated panels for live file updates while agents work, GitHub logs and activity, and running usage totals where extensions expose them.
+
+None of these are finished yet. See the [roadmap](towelwise/ROADMAP.md) for what is decided and what is still open.
+
+<!-- screenshot: the Towelwise workspace, once the layout work lands -->
+
+## Working with AI agents
+
+Install agents from Open VSX in the Extensions view, then sign in inside each agent's own panel. Claude Code and Codex have been installed and signed in this way in an earlier build.
+
+## Status
+
+Towelwise AI is in pre-release.
+
+- **Phase 1 (done):** the fork builds and runs as its own application.
+- **Phase 2 (next):** the workspace, built from scratch in core. Features from an earlier extension-based version (hyperspace, the layout editor, shell commands) have been removed and will come back only in a form the new design calls for.
+- **Builds:** the only build output is a portable Windows x64 zip. There is no installer and no public download yet.
+- **Updates:** automatic updates are off.
+- **Platforms:** Windows x64 only. macOS and Linux are not built or tested.
+
+## Building from source (Windows)
+
+You need Windows x64 and these tools on your PATH: git, node and npm, jq, python, 7z and cargo (Rust), plus Git for Windows.
+
+Close Towelwise AI if it is running, then run the build script with Git Bash from the repository root:
+
+```sh
+"C:\Program Files\Git\bin\bash.exe" towelwise/ide/build.sh
+```
+
+A full build takes about 15 to 16 minutes and uses the machine heavily. It builds the committed `HEAD`, not uncommitted changes. The zip lands in `C:\towel-builds\build\dist`.
+
+To start the built app in a brand-new profile each time, run:
+
+```cmd
+towelwise\ide\launch.cmd
+```
+
+Build and workflow details are in [towelwise/AGENTS.md](towelwise/AGENTS.md); decisions are in [towelwise/docs/decisions](towelwise/docs/decisions/).
+
+## Roadmap
+
+The full plan is in [towelwise/ROADMAP.md](towelwise/ROADMAP.md). No dates are set.
+
+| Phase | What | Status |
+|---|---|---|
+| 1 | The fork builds as Towelwise AI | Done |
+| 2 | The workspace, built from scratch in core | Next |
+| 3 | First upstream merge, timed | Planned |
+| 5 | Memory experiment | Planned |
+| 6 | Towelwise Recall | Planned |
+| 7 | Towelwise Guide | Planned |
+| 8 | DOUG | Planned |
 
 ## Contributing
 
-There are many ways in which you can participate in this project, for example:
+Read [towelwise/AGENTS.md](towelwise/AGENTS.md) before making changes. Features are built from scratch in core, and each feature's open questions are settled as decisions before it is specified and built.
 
-* [Submit bugs and feature requests](https://github.com/microsoft/vscode/issues), and help us verify them as they are checked in
-* Review [source code changes](https://github.com/microsoft/vscode/pulls)
-* Review the [documentation](https://github.com/microsoft/vscode-docs) and make pull requests for anything from typos to new content.
+Contact: [towelwiseai@gmail.com](mailto:towelwiseai@gmail.com)
 
-If you are interested in fixing issues and contributing directly to the codebase, please see the document [How to Contribute](https://github.com/microsoft/vscode/wiki/How-to-Contribute), which covers the following:
+## Licence
 
-* [How to build and run from source](https://github.com/microsoft/vscode/wiki/How-to-Contribute)
-* [The development workflow, including debugging and running tests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#debugging)
-* [Coding guidelines](https://github.com/microsoft/vscode/wiki/Coding-Guidelines)
-* [Submitting pull requests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#pull-requests)
-* [Finding an issue to work on](https://github.com/microsoft/vscode/wiki/How-to-Contribute#where-to-contribute)
-* [Contributing to translations](https://aka.ms/vscodeloc)
+Licensed under the MIT License. See [LICENSE.txt](LICENSE.txt).
 
-## Feedback
+- Copyright (c) 2015 - present Microsoft Corporation
+- Copyright (c) 2026 - present Towelwise contributors
 
-* Ask a question on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode)
-* [Request a new feature](CONTRIBUTING.md)
-* Upvote [popular feature requests](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-* [File an issue](https://github.com/microsoft/vscode/issues)
-* Connect with the extension author community on [GitHub Discussions](https://github.com/microsoft/vscode-discussions/discussions) or [Slack](https://aka.ms/vscode-dev-community)
-* Follow [@code](https://x.com/code) and let us know what you think!
+## Disclaimers
 
-See our [wiki](https://github.com/microsoft/vscode/wiki/Feedback-Channels) for a description of each of these channels and information on some other available community-driven channels.
-
-## Related Projects
-
-Many of the core components and extensions to VS Code live in their own repositories on GitHub. For example, the [node debug adapter](https://github.com/microsoft/vscode-node-debug) and the [mono debug adapter](https://github.com/microsoft/vscode-mono-debug) repositories are separate from each other. For a complete list, please visit the [Related Projects](https://github.com/microsoft/vscode/wiki/Related-Projects) page on our [wiki](https://github.com/microsoft/vscode/wiki).
-
-## Bundled Extensions
-
-VS Code includes a set of built-in extensions located in the [extensions](extensions) folder, including grammars and snippets for many languages. Extensions that provide rich language support (inline suggestions, Go to Definition) for a language have the suffix `language-features`. For example, the `json` extension provides coloring for `JSON` and the `json-language-features` extension provides rich language support for `JSON`.
-
-## Development Container
-
-This repository includes a Visual Studio Code Dev Containers / GitHub Codespaces development container.
-
-* For [Dev Containers](https://aka.ms/vscode-remote/download/containers), use the **Dev Containers: Clone Repository in Container Volume...** command, which creates a Docker volume for better disk I/O on macOS and Windows.
-  * If you already have VS Code and Docker installed, you can also click [here](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode) to get started. This will cause VS Code to automatically install the Dev Containers extension if needed, clone the source code into a container volume, and spin up a dev container for use.
-
-* For Codespaces, install the [GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces) extension in VS Code, and use the **Codespaces: Create New Codespace** command.
-
-Docker / the Codespace should have at least **4 cores and 6 GB of RAM (8 GB recommended)** to run a full build. See the [development container README](.devcontainer/README.md) for more information.
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## License
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-Licensed under the [MIT](LICENSE.txt) license.
+Towelwise AI is an independent project ([github.com/towelwise/towelwise-production](https://github.com/towelwise/towelwise-production)). It is not affiliated with or endorsed by Microsoft, VSCodium, Anthropic or OpenAI. Code-OSS is developed by Microsoft. Claude Code is a product of Anthropic. Codex is a product of OpenAI.
