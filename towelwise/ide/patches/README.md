@@ -1,6 +1,8 @@
 # Core patches
 
-Towelwise AI changes Code-OSS through its built-in extension first, and patches core only where the extension cannot reach ([decision 0005](../../docs/decisions/0005-patch-core-only-when-the-extension-cannot.md)). `ide/build.sh` copies every `*.patch` here into the VSCodium checkout's `patches/user/`, which VSCodium applies after its own patches. Patches are plain `git apply` diffs against the pinned upstream source. On every pull request that touches `ide/`, CI (`.github/workflows/core-patches.yml`) applies them after VSCodium's own patches and fails if they do not apply or add a type error; building and running the app stays a manual check.
+Towelwise AI changes Code-OSS through its built-in extension first, and patches core only where the extension cannot reach ([decision 0005](../../docs/decisions/0005-patch-core-only-when-the-extension-cannot.md)). `ide/build.sh` copies every `*.patch` here into the VSCodium checkout's `patches/user/`, which VSCodium applies after its own patches. Patches are plain `git apply` diffs against the pinned upstream source.
+
+Since the fork, core changes are commits in `src/`. 0001 to 0003 became commits 0459e4d7e7d, 50cbd4db9ef and c6e76f5040c; their notes below are kept as the record. 0004 stays a patch: the lines it edits are context for VSCodium's `00-brand-remove-branding.patch`, so it must apply after VSCodium's patches.
 
 Each patch has a note below: why it exists, what it touches, and how it fared at each upstream update (the upkeep record 0005 asks for).
 
