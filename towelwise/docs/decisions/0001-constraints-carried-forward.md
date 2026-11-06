@@ -1,6 +1,6 @@
 # Constraints carried forward from the archived repository
 
-Status: accepted (2026-11-06). Carries forward approved records; the one new rule is marked.
+Status: accepted (2026-11-06). Carries forward approved records; the one new rule is marked. Partly superseded by [0004](0004-features-are-built-from-scratch-in-core.md): the port, the frozen IDs and layout format, and the hyperspace section no longer bind; the rest still does.
 
 This repository starts from [decision 0007](https://github.com/towelwise/Towelwise/blob/main/docs/decisions/0007-towelwise-ai-is-a-fork-of-code-oss.md) of the archived [towelwise/Towelwise](https://github.com/towelwise/Towelwise) repository. Its earlier records are not copied here. The constraints below still bind this repository until a numbered decision here changes one. Links point to the archived originals.
 

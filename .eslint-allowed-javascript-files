@@ -84,10 +84,6 @@ extensions/search-result/syntaxes/generateTMLanguage.js
 extensions/sql/build/update-grammar.mjs
 extensions/terminal-suggest/scripts/update-specs.js
 extensions/theme-seti/build/update-icon-theme.js
-# Towelwise: extension-era features, until Phase 2 integrates them into core
-extensions/towelwise/.vscode-test.mjs
-extensions/towelwise/media/layout.js
-extensions/towelwise/media/picker.js
 extensions/typescript-basics/build/update-grammars.mjs
 extensions/typescript-language-features/test-workspace/foojs.js
 extensions/vscode-api-tests/testWorkspace/debug.js

@@ -36,12 +36,6 @@ class ChangingContextKeyService extends MockContextKeyService {
 	}
 }
 
-const DEFAULT_COMMANDS = [
-	'towelwise.hyperspace.toggle', 'towelwise.hyperspace.edit', 'towelwise.layout.choose', 'towelwise.layout.restore',
-	'towelwise.shell.powershell', 'towelwise.shell.powershellAdmin', 'towelwise.shell.cmd', 'towelwise.shell.cmdAdmin',
-	'towelwise.shell.gitbash', 'towelwise.shell.pwsh', 'towelwise.shell.pwshAdmin', 'towelwise.shell.wsl',
-];
-
 function registeredDefault(setting: string): unknown {
 	return Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Configuration).getConfigurationProperties()[setting]?.default;
 }
@@ -99,19 +93,17 @@ suite('Towelwise menu settings and hook', () => {
 	test('registers both settings with their defaults', () => {
 		const properties = Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Configuration).getConfigurationProperties();
 		assert.deepStrictEqual([HIDDEN_SETTING, MENU_SETTING].map(id => properties[id]?.type), ['array', 'array']);
-		assert.deepStrictEqual(registeredDefault(HIDDEN_SETTING), []);
-		const menu = registeredDefault(MENU_SETTING);
-		assert.ok(Array.isArray(menu));
-		assert.deepStrictEqual(menu.map(entry => entry.command), DEFAULT_COMMANDS);
+		assert.deepStrictEqual([registeredDefault(HIDDEN_SETTING), registeredDefault(MENU_SETTING)], [[], []]);
 	});
 
-	test('a first launch shows the default menu at once, with no extension service involved', () => {
-		create();
-		assert.deepStrictEqual(entries().map(item => [item.group, item.command.id]), [
-			...DEFAULT_COMMANDS.slice(0, 2).map(id => ['00_hyperspace', id]),
-			...DEFAULT_COMMANDS.slice(2, 4).map(id => ['01_layout', id]),
-			...DEFAULT_COMMANDS.slice(4).map(id => ['02_shells', id]),
-		]);
+	test('with the default settings there is no Towelwise menu and nothing is hidden', () => {
+		const { log } = create();
+		assert.deepStrictEqual([topLevel(), HiddenCommands.isHidden('workbench.action.files.save'), log.warnings], [undefined, false, []]);
+	});
+
+	test('a configured menu shows at once on first launch, with no extension service involved', () => {
+		create({ [MENU_SETTING]: [{ command: 'a', title: 'A', group: 'g' }] });
+		assert.deepStrictEqual(entries().map(item => [item.group, item.command.id]), [['00_g', 'a']]);
 	});
 
 	test('an entry with a mistake is skipped and named, and its neighbours stay', () => {
@@ -188,13 +180,13 @@ suite('Towelwise menu settings and hook', () => {
 	});
 
 	test('a hidden command leaves the Towelwise menu and the Command Palette, and comes back', () => {
-		const { change } = create();
+		const { change } = create({ [MENU_SETTING]: [{ command: 'towelwise.test.menu.entry', title: 'Entry' }] });
 		store.add(MenuRegistry.addCommand({ id: 'towelwise.test.palette', title: 'Palette Test' }));
 		const inPalette = () => MenuRegistry.getMenuItems(MenuId.CommandPalette).filter(isIMenuItem).some(item => item.command.id === 'towelwise.test.palette');
-		const inMenu = () => entries().some(item => item.command.id === 'towelwise.hyperspace.toggle');
+		const inMenu = () => entries().some(item => item.command.id === 'towelwise.test.menu.entry');
 		assert.deepStrictEqual([inPalette(), inMenu()], [true, true]);
 
-		change(HIDDEN_SETTING, ['towelwise.test.palette', 'towelwise.hyperspace.*']);
+		change(HIDDEN_SETTING, ['towelwise.test.palette', 'towelwise.test.menu.*']);
 		assert.deepStrictEqual([inPalette(), inMenu()], [false, false]);
 
 		change(HIDDEN_SETTING, []);

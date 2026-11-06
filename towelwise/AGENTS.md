@@ -1,6 +1,6 @@
 # Towelwise AI agent workflow
 
-Towelwise AI is a full IDE, a fork of Code-OSS, not an extension. Its first features were built as a VS Code extension; they are now being integrated into core as first-class code. Describe the work that way.
+Towelwise AI is a full IDE, a fork of Code-OSS, not an extension. Its first features were built as a VS Code extension; that code has been removed, and every feature is now built from scratch in core from the vision in the roadmap ([decision 0004](docs/decisions/0004-features-are-built-from-scratch-in-core.md)). Describe the work that way.
 
 Read this file in both Claude Code and Codex. The roadmap is [ROADMAP.md](ROADMAP.md). Decisions are in [docs/decisions/](docs/decisions/), starting with [0001](docs/decisions/0001-constraints-carried-forward.md). For the Code-OSS codebase itself, Microsoft's root `AGENTS.md` and `.github/copilot-instructions.md` still apply.
 
@@ -8,25 +8,23 @@ Read this file in both Claude Code and Codex. The roadmap is [ROADMAP.md](ROADMA
 
 - Claude Code is the primary implementer. Codex reviews, challenges plans, and handles explicitly scoped tests or mechanical tasks. Gemini/Antigravity provides advisory and UI help.
 - Work on the current phase in `ROADMAP.md`. Phases can be divided into smaller agreed slices, each with a spec.
-- **No new features until Phase 2 is done.** Fixes only.
+- **Build from scratch in core.** Never port or adapt extension-era code; start from the vision and what core makes possible. Settle a feature's open questions as decisions, then write its spec, before building it.
 - Preserve approved decisions. Propose unresolved architecture and tooling choices for the user to decide before implementing dependent work. Create a decision record only for an approved trade-off.
 
 ## Where things go
 
 - `towelwise/`: our docs, decisions and build scripts (`towelwise/ide/`).
 - `src/vs/workbench/contrib/towelwise/`: Towelwise code in core, by habit.
-- `extensions/towelwise/`: the extension-era features, carried in the tree only until Phase 2 integrates each into core and deletes the folder. Fix them there; build nothing new there.
 - Microsoft's files are edited when that is the right change, but deliberately: every edit raises the cost of each upstream merge. Keep such diffs small and say why in the commit.
 - The `upstream` remote is Microsoft's, with push disabled. Upstream merges land as real merge commits, never squashed or rebased.
 
 ## Constraints that bind every change
 
-Summarized from [decision 0001](docs/decisions/0001-constraints-carried-forward.md); read it for the full rules and sources.
+Summarized from [decision 0001](docs/decisions/0001-constraints-carried-forward.md) as amended by [0004](docs/decisions/0004-features-are-built-from-scratch-in-core.md); read them for the full rules and sources.
 
-- Every `towelwise.*` setting and command ID and the saved-layout format stay unchanged. Renaming any of them needs its own decision.
+- Files Towelwise creates carry the Towelwise header ([decision 0002](docs/decisions/0002-towelwise-files-carry-a-towelwise-header.md)).
 - No agent is bundled. Agents install from Open VSX only, never Microsoft's Marketplace; people sign in in the agent's own panel. Say "works with", never "official" or "supported by". Keep MIT notices; no Microsoft trademarks.
 - VSCodium's update feed stays off (`DISABLE_UPDATE=yes`).
-- Hyperspace works by layout area, never by detecting agents or their view IDs. It writes user settings, never workspace settings, saves each previous value (including "not set") to disk before the first change, and restores it exactly. Jumps and restores are serialized across windows.
 - In an untrusted project everything works except terminal startup commands (and any later feature that runs project code). Granting trust never starts anything on its own.
 - Before code changes a user setting, save the old value to disk, not only in memory. Multi-setting writes recover from a partial failure, and the crash and partial-write paths are tested.
 
@@ -58,7 +56,7 @@ The catalog is `grill-with-docs`, `grilling`, `domain-modeling`, `codebase-desig
 ## Verification
 
 - Editor: follow the validation section of `.github/copilot-instructions.md` and choose the smallest check that covers the change (`npm run typecheck-client` for `src/`, `npm run gulp compile-extensions` for built-in extensions). Builds and type checks are slow; don't run them as a ritual.
-- Tests for the features still in `extensions/towelwise/`: run from that folder (commands land with step 5 of Phase 1).
+- Towelwise core tests run under plain Node: `npm run build-fast -- --client-only`, then `npm run test-node -- --runGlob "vs/workbench/contrib/towelwise/**/*.test.js"`. Put tests in `src/vs/workbench/contrib/towelwise/test/`; pull-request CI runs that glob.
 - Pull-request CI compiles the editor and runs our tests. The full app build is a release and hand-check step.
 - Build the app: `towelwise/ide/build.sh` from Git Bash (`C:\Program Files\Git\bin\bash.exe`; the `bash` on PATH is the WSL stub). It takes about 14 minutes, uses the machine heavily, and needs the app closed. Run it in the background and log to `C:\towel-builds\logs\build-*.log`. It builds the committed `HEAD`, not uncommitted changes. The VSCodium clone and the zip live in `C:\towel-builds\build\` (reused between builds); the old `C:\tw-build` is not used any more.
 - Launch the built app for manual checks with `towelwise/ide/launch.cmd`. Each launch gets a brand-new profile in `C:\towel-builds\profiles\<timestamp>\` (agent config folders, user data and extensions all empty), so earlier sign-ins and installs never carry over. To reopen the same profile, set `TW_PROFILE` to that folder before launching. The script also clears `ELECTRON_RUN_AS_NODE` and `VSCODE_*`.

@@ -3,7 +3,6 @@
 **/extensions/**/build/**
 **/extensions/**/colorize-fixtures/**
 **/extensions/copilot/coverage/**
-**/extensions/towelwise/**
 **/extensions/copilot/.esbuild/**
 **/extensions/copilot/.simulation/**
 **/extensions/copilot/.eslintplugin/**

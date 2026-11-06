@@ -1,8 +1,0 @@
-src/**
-out/test/**
-**/*.map
-tsconfig.json
-.vscode-test.mjs
-.vscode-test/**
-test-workspace/**
-esbuild.mts

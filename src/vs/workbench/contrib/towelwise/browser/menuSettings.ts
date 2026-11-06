@@ -53,20 +53,8 @@ Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Configuration).regis
 					}
 				}
 			},
-			default: [
-				{ command: 'towelwise.hyperspace.toggle', title: 'Jump to Hyperspace', group: 'hyperspace' },
-				{ command: 'towelwise.hyperspace.edit', title: 'Edit Hyperspace Layout', group: 'hyperspace' },
-				{ command: 'towelwise.layout.choose', title: 'Choose Layout', group: 'layout' },
-				{ command: 'towelwise.layout.restore', title: 'Restore Layout', group: 'layout' },
-				{ command: 'towelwise.shell.powershell', title: 'PowerShell', group: 'shells', when: 'towelwise.shell.available.powershell' },
-				{ command: 'towelwise.shell.powershellAdmin', title: 'PowerShell (Admin)', group: 'shells', when: 'towelwise.shell.available.powershellAdmin' },
-				{ command: 'towelwise.shell.cmd', title: 'Command Prompt', group: 'shells', when: 'towelwise.shell.available.cmd' },
-				{ command: 'towelwise.shell.cmdAdmin', title: 'Command Prompt (Admin)', group: 'shells', when: 'towelwise.shell.available.cmdAdmin' },
-				{ command: 'towelwise.shell.gitbash', title: 'Git Bash', group: 'shells', when: 'towelwise.shell.available.gitbash' },
-				{ command: 'towelwise.shell.pwsh', title: 'PowerShell 7', group: 'shells', when: 'towelwise.shell.available.pwsh' },
-				{ command: 'towelwise.shell.pwshAdmin', title: 'PowerShell 7 (Admin)', group: 'shells', when: 'towelwise.shell.available.pwshAdmin' },
-				{ command: 'towelwise.shell.wsl', title: 'WSL', group: 'shells', when: 'towelwise.shell.available.wsl' }
-			],
+			// shortcut: empty until the menu is redesigned from the vision (decision 0004); the old entries named removed commands.
+			default: [],
 			scope: ConfigurationScope.APPLICATION,
 			markdownDescription: localize('towelwise.menus.towelwise.description', "The entries of the Towelwise menu in the menu bar, in order. Each needs a `command` and a `title`; `group` separates sections and `when` shows an entry only while a condition holds. Entries with a mistake are skipped and named in the Window log. Needs Towelwise AI.")
 		}

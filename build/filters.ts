@@ -69,8 +69,6 @@ export const unicodeFilter = Object.freeze<string[]>([
 
 	// extensions/copilot has its own code style
 	'!extensions/copilot/**',
-	// Towelwise: extension-era features keep their own style until Phase 2 integrates them into core
-	'!extensions/towelwise/**',
 
 	'!src/vs/base/browser/dompurify/**',
 	'!src/vs/workbench/services/keybinding/browser/keyboardLayouts/**',
@@ -143,8 +141,6 @@ export const indentationFilter = Object.freeze<string[]>([
 
 	// extensions/copilot has its own code style
 	'!extensions/copilot/**',
-	// Towelwise: extension-era features keep their own style until Phase 2 integrates them into core
-	'!extensions/towelwise/**',
 
 	// except specific file types
 	'!src/vs/*/**/*.d.ts',
@@ -232,8 +228,6 @@ export const copyrightFilter = Object.freeze<string[]>([
 
 	// extensions/copilot has its own code style
 	'!extensions/copilot/**',
-	// Towelwise: extension-era features keep their own style until Phase 2 integrates them into core
-	'!extensions/towelwise/**',
 ]);
 
 export const tsFormattingFilter = Object.freeze<string[]>([
@@ -257,8 +251,6 @@ export const tsFormattingFilter = Object.freeze<string[]>([
 
 	// extensions/copilot has its own code style
 	'!extensions/copilot/**',
-	// Towelwise: extension-era features keep their own style until Phase 2 integrates them into core
-	'!extensions/towelwise/**',
 ]);
 
 export const eslintFilter = Object.freeze<string[]>([
@@ -280,5 +272,4 @@ export const stylelintFilter = Object.freeze<string[]>([
 	'!extensions/**/test/**',
 	'!extensions/**/test-data/**',
 	'!extensions/**/testData/**',
-	'!extensions/towelwise/**', // Towelwise: until the Phase 2 port
 ]);

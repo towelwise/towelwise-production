@@ -1,6 +1,6 @@
 # Ported features keep the extension's storage folder and lock
 
-Status: accepted (2026-11-06).
+Status: superseded the same day by [0004](0004-features-are-built-from-scratch-in-core.md): nothing is ported, so there is no storage or lock to stay compatible with.
 
 ## Decision
 
