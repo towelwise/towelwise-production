@@ -177,6 +177,17 @@
 	align-self: end;
 }
 
+/* Towelwise AI: the mark beside the product name on the Welcome page. */
+.monaco-workbench .part.editor > .content .gettingStartedContainer .gettingStartedSlideCategories > .gettingStartedCategoriesContainer > .header .product-name::before {
+	content: "";
+	display: inline-block;
+	width: 1.1em;
+	height: 1.1em;
+	margin-right: 0.35em;
+	vertical-align: -0.15em;
+	background: url("./towelwise-mark.svg") center / contain no-repeat;
+}
+
 .monaco-workbench .part.editor > .content .gettingStartedContainer .gettingStartedSlideCategories > .gettingStartedCategoriesContainer > .footer {
 	grid-area: footer;
 	justify-self: center;
