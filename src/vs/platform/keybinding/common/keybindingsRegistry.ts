@@ -6,6 +6,7 @@
 import { decodeKeybinding, Keybinding } from '../../../base/common/keybindings.js';
 import { OperatingSystem, OS } from '../../../base/common/platform.js';
 import { CommandsRegistry, ICommandHandler, ICommandMetadata } from '../../commands/common/commands.js';
+import { HiddenCommands } from '../../commands/common/hiddenCommands.js';
 import { ContextKeyExpression } from '../../contextkey/common/contextkey.js';
 import { Registry } from '../../registry/common/platform.js';
 import { combinedDisposable, DisposableStore, IDisposable, toDisposable } from '../../../base/common/lifecycle.js';
@@ -202,12 +203,16 @@ class KeybindingsRegistryImpl implements IKeybindingsRegistry {
 			this._cachedMergedKeybindings = Array.from(this._coreKeybindings).concat(this._extensionKeybindings);
 			this._cachedMergedKeybindings.sort(sorter);
 		}
-		return this._cachedMergedKeybindings.slice(0);
+		// Towelwise AI: a hidden command keeps its removal rules (a command starting with '-') but loses its defaults.
+		return this._cachedMergedKeybindings.filter(item => !item.command || item.command.startsWith('-') || !HiddenCommands.isHidden(item.command));
 	}
 
 	public getDefaultKeybindingsForOS(os: OperatingSystem): IKeybindingItem[] {
 		const result: IKeybindingItem[] = [];
 		for (const rule of this._coreKeybindingRules) {
+			if (HiddenCommands.isHidden(rule.id)) {
+				continue;
+			}
 			const actualKb = KeybindingsRegistryImpl.bindToPlatform(rule, os);
 
 			if (actualKb && actualKb.primary) {

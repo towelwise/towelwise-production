@@ -84,6 +84,7 @@ const compilations = [
 	'extensions/references-view/tsconfig.json',
 	'extensions/search-result/tsconfig.json',
 	'extensions/simple-browser/tsconfig.json',
+	'extensions/towelwise/tsconfig.json', // Towelwise: extension-era features, until Phase 2 integrates them into core
 	'extensions/tunnel-forwarding/tsconfig.json',
 	'extensions/typescript-language-features/web/tsconfig.json',
 	'extensions/typescript-language-features/tsconfig.json',

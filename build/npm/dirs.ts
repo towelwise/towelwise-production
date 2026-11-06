@@ -48,6 +48,7 @@ export const dirs = [
 	'extensions/simple-browser',
 	'extensions/tunnel-forwarding',
 	'extensions/terminal-suggest',
+	'extensions/towelwise', // Towelwise: extension-era features, until Phase 2 integrates them into core
 	'extensions/typescript-language-features',
 	'extensions/vscode-api-tests',
 	'extensions/vscode-colorize-tests',
