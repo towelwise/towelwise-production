@@ -1,0 +1,2 @@
+# Sourced by bash in the build; a CR would end up in the values.
+*.env eol=lf
