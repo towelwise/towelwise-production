@@ -9,7 +9,7 @@ set -eo pipefail
 
 IDE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR="$( dirname "$( dirname "${IDE_DIR}" )" )"
-TW_BUILD_DIR="${TW_BUILD_DIR:-/c/tw-build}"
+TW_BUILD_DIR="${TW_BUILD_DIR:-/c/towel-builds/build}"
 VSCODIUM_DIR="${TW_BUILD_DIR}/vscodium"
 
 # shellcheck disable=SC1091
