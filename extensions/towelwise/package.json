@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "node ../../node_modules/@typescript/native/bin/tsc -p .",
     "pretest": "npm run build",
     "test": "vscode-test",
     "prepackage": "node -e \"require('fs').copyFileSync('../../LICENSE','LICENSE')\"",

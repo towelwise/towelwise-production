@@ -1,0 +1,54 @@
+name: Towelwise PR
+
+# Towelwise: type-checks the editor and runs the tests of the extension-era features carried in extensions/towelwise.
+# Microsoft's workflows are disabled in this repository's settings; they need Microsoft's runners.
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: towelwise-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Type check & Towelwise tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install build tools
+        run: sudo apt update -y && sudo apt install -y build-essential pkg-config libx11-dev libx11-xcb-dev libxkbfile-dev libnotify-bin libkrb5-dev xvfb
+
+      - name: Install Electron headers
+        run: node build/npm/preinstall.ts
+
+      # Also installs extensions/towelwise's dependencies (build/npm/dirs.ts).
+      - name: Install dependencies
+        run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare Electron types
+        run: node build/npm/electronTypes.ts
+
+      - name: Type check src
+        run: npm run typecheck-client
+
+      - name: Towelwise tests
+        run: xvfb-run -a npm test
+        working-directory: extensions/towelwise
