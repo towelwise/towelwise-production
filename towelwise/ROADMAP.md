@@ -14,7 +14,7 @@ The guiding rule stays: **a small, real prototype in weeks, not a finished suite
 | Phase | What | Status |
 |---|---|---|
 | 1 | **Bring-up**: the fork builds as today's app | Next |
-| 2 | **The port**: features move from the extension into core | — |
+| 2 | **The port**: extension-era features become integrated core code | — |
 | 3 | **First upstream merge**, timed | — |
 | 4 | Finish the layout editor | — |
 | 5 | The memory experiment (Hindsight on Windows) | — |
@@ -30,9 +30,9 @@ Main starts at `e646868` with an `upstream` remote. The archived `ide/` build mo
 
 **Done when:**
 
-- The build script builds the fork with the extension bundled.
+- The build script builds the fork with today's features, still carried in `extensions/towelwise/`.
 - In the built app, the archived app's checks pass: Claude Code and Codex install from Open VSX and sign in, hyperspace jumps and restores, My layout applies and notices drift, and an untrusted project gets everything but startup commands.
-- Pull-request CI compiles the editor and runs the extension's tests, and is green.
+- Pull-request CI compiles the editor and runs the Towelwise tests, and is green.
 
 ## Phase 2 — The port
 

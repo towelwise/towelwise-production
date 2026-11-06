@@ -1,4 +1,4 @@
-# Constraints carried forward from the extension repository
+# Constraints carried forward from the archived repository
 
 Status: accepted (2026-11-06). Carries forward approved records; the one new rule is marked.
 
@@ -10,7 +10,7 @@ This repository starts from [decision 0007](https://github.com/towelwise/Towelwi
 - VSCodium's build scripts sit on top, pinned to a tag, for branding, telemetry removal and Open VSX. Only their Code-OSS clone step is replaced by this fork.
 - Towelwise code goes in `src/vs/workbench/contrib/towelwise/` by habit, and Microsoft's files are edited when that is the right change. Edits to Microsoft's files stay deliberate, because they set the cost of every upstream merge.
 - Our docs and build scripts live in the top-level `towelwise/` folder. Microsoft's root `AGENTS.md` keeps a short Towelwise section at its top pointing to `towelwise/AGENTS.md`, and a root `CLAUDE.md` does the same.
-- The port first carries the extension as a bundled extension in `extensions/towelwise/`, then moves each feature into `contrib/towelwise/` with its tests rewritten as core unit tests. The menu hook moves first, the layout last.
+- The port first carries the extension-era features in `extensions/towelwise/`, then integrates each into `contrib/towelwise/` with its tests rewritten as core unit tests. The menu hook moves first, the layout last.
 - Every `towelwise.*` setting and command ID and the saved-layout format stay unchanged, so people's settings, keys and saved layouts survive. Renaming any of them needs its own decision.
 - Upstream releases are taken when we choose. VSCodium's update feed stays off (`DISABLE_UPDATE=yes`). Our own update feed is release work.
 - Pull-request checks compile the editor and run our tests. The full app build is a release step.
@@ -35,11 +35,11 @@ This repository starts from [decision 0007](https://github.com/towelwise/Towelwi
 - In an untrusted project everything works except terminal startup commands, which are withheld. Granting trust never starts anything on its own; the person is told the commands run after a reload.
 - Any later feature that runs project code (tasks, agent commands) is withheld the same way.
 
-**Settings safety (extension `AGENTS.md`)**
+**Settings safety (archived `AGENTS.md`)**
 
 - Before code changes a user setting, the old value is saved to disk, not only in memory, so a crash can restore it. Multi-setting writes recover from a partial failure, and the crash and partial-write paths are tested.
 
-**Promises every phase keeps (extension roadmap)**
+**Promises every phase keeps (archived roadmap)**
 
 1. You drive your AI; Towelwise never does.
 2. Vendor rules first, no gray areas.

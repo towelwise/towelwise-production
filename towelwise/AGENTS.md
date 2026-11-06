@@ -1,5 +1,7 @@
 # Towelwise AI agent workflow
 
+Towelwise AI is a full IDE, a fork of Code-OSS, not an extension. Its first features were built as a VS Code extension; they are now being integrated into core as first-class code. Describe the work that way.
+
 Read this file in both Claude Code and Codex. The roadmap is [ROADMAP.md](ROADMAP.md). Decisions are in [docs/decisions/](docs/decisions/), starting with [0001](docs/decisions/0001-constraints-carried-forward.md). For the Code-OSS codebase itself, Microsoft's root `AGENTS.md` and `.github/copilot-instructions.md` still apply.
 
 ## Roles and scope
@@ -13,7 +15,7 @@ Read this file in both Claude Code and Codex. The roadmap is [ROADMAP.md](ROADMA
 
 - `towelwise/`: our docs, decisions and build scripts (`towelwise/ide/`).
 - `src/vs/workbench/contrib/towelwise/`: Towelwise code in core, by habit.
-- `extensions/towelwise/`: the extension, bundled as a built-in extension until the Phase 2 port removes it.
+- `extensions/towelwise/`: the extension-era features, carried in the tree only until Phase 2 integrates each into core and deletes the folder. Fix them there; build nothing new there.
 - Microsoft's files are edited when that is the right change, but deliberately: every edit raises the cost of each upstream merge. Keep such diffs small and say why in the commit.
 - The `upstream` remote is Microsoft's, with push disabled. Upstream merges land as real merge commits, never squashed or rebased.
 
@@ -56,7 +58,7 @@ The catalog is `grill-with-docs`, `grilling`, `domain-modeling`, `codebase-desig
 ## Verification
 
 - Editor: follow the validation section of `.github/copilot-instructions.md` and choose the smallest check that covers the change (`npm run typecheck-client` for `src/`, `npm run gulp compile-extensions` for built-in extensions). Builds and type checks are slow; don't run them as a ritual.
-- Extension tests: run from `extensions/towelwise/` (commands land with the bundled extension).
+- Tests for the features still in `extensions/towelwise/`: run from that folder (commands land with step 5 of Phase 1).
 - Pull-request CI compiles the editor and runs our tests. The full app build is a release and hand-check step.
 - Build the app: `towelwise/ide/build.sh` from Git Bash (`C:\Program Files\Git\bin\bash.exe`; the `bash` on PATH is the WSL stub). It takes about 14 minutes, uses the machine heavily, and needs the app closed. Run it in the background and log to `C:\tw-build\build-*.log`. It builds the committed `HEAD`, not uncommitted changes.
 - Launch the built app for manual checks with `C:\tw-build\launch-towelwise.cmd` (it clears `ELECTRON_RUN_AS_NODE` and `VSCODE_*` and uses empty agent config folders).
