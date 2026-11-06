@@ -8,7 +8,6 @@ import { keepHoldRecordIn, liveEditors, recoverHeldSetting, watchTabs } from './
 import { applyLayoutLocked, applyLayoutOnStartup, closeAgentTabs, liveHost, Outcome, reportOutcome } from './myLayout';
 import { readLayout } from './savedLayout';
 import { hasStartupCommand } from './columns';
-import { logMenuProblems } from './menuEntries';
 import { openPicker } from './pickerPanel';
 import { available, detectMachine, launch, SHELL_KEYS, ShellKey, startDir } from './shells';
 
@@ -35,15 +34,6 @@ export function activate(context: vscode.ExtensionContext): void {
   const log = (line: string) => channel.appendLine(`${new Date().toISOString()} ${line}`);
   setLog(log);
   context.subscriptions.push(channel);
-
-  // The Towelwise menu is drawn by the IDE from this setting; a mistake in it is named here, not silent.
-  const checkMenuSetting = () => logMenuProblems(vscode.workspace.getConfiguration('towelwise.menus').get('towelwise'), log);
-  checkMenuSetting();
-  context.subscriptions.push(
-    vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration('towelwise.menus.towelwise')) checkMenuSetting();
-    }),
-  );
 
   // Shells in a normal window outside the IDE. Detected fresh on each use, so a shell installed later works.
   const openShell = async (key: ShellKey) => {

@@ -16,11 +16,20 @@ import eslint from './gulp-eslint.ts';
 import * as formatter from './lib/formatter.ts';
 import gulpstylelint from './stylelint.ts';
 
-const copyrightHeaderLines = [
-	'/*---------------------------------------------------------------------------------------------',
-	' *  Copyright (c) Microsoft Corporation. All rights reserved.',
-	' *  Licensed under the MIT License. See License.txt in the project root for license information.',
-	' *--------------------------------------------------------------------------------------------*/',
+const copyrightHeaders = [
+	[
+		'/*---------------------------------------------------------------------------------------------',
+		' *  Copyright (c) Microsoft Corporation. All rights reserved.',
+		' *  Licensed under the MIT License. See License.txt in the project root for license information.',
+		' *--------------------------------------------------------------------------------------------*/',
+	],
+	// Towelwise AI: files Towelwise creates carry this header instead; a file takes one complete header, never a mix.
+	[
+		'/*---------------------------------------------------------------------------------------------',
+		' *  Copyright (c) Towelwise contributors. All rights reserved.',
+		' *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.',
+		' *--------------------------------------------------------------------------------------------*/',
+	],
 ];
 
 interface VinylFileWithLines extends VinylFile {
@@ -162,12 +171,9 @@ export function hygiene(some: NodeJS.ReadWriteStream | string[] | undefined, run
 	const copyrights = es.through(function (file: VinylFileWithLines) {
 		const lines = file.__lines;
 
-		for (let i = 0; i < copyrightHeaderLines.length; i++) {
-			if (lines[i] !== copyrightHeaderLines[i]) {
-				console.error(file.relative + ': Missing or bad copyright statement');
-				errorCount++;
-				break;
-			}
+		if (!copyrightHeaders.some(header => header.every((line, i) => lines[i] === line))) {
+			console.error(file.relative + ': Missing or bad copyright statement');
+			errorCount++;
 		}
 
 		this.emit('data', file);

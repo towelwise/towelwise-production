@@ -49,6 +49,12 @@ jobs:
       - name: Type check src
         run: npm run typecheck-client
 
-      - name: Towelwise tests
+      - name: Transpile client
+        run: npm run build-fast -- --client-only
+
+      - name: Towelwise core tests
+        run: npm run test-node -- --runGlob "vs/workbench/contrib/towelwise/**/*.test.js"
+
+      - name: Towelwise extension tests
         run: xvfb-run -a npm test
         working-directory: extensions/towelwise

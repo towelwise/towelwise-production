@@ -24,7 +24,6 @@ Search for `towelwise` in Settings.
 - `towelwise.layout.agents`, `towelwise.layout.grid`, `towelwise.layout.sizes`: your layout. Set them with **Towelwise: Choose Layout**. **Restore Layout** moves each agent to its place, builds the editor columns and sets the sizes. It never closes a tab. If an agent is also open as an editor tab, it tells you and offers to close that tab. Once `agents` is set, `towelwise.layout.containers` and `towelwise.layout.commands` are ignored.
 - `towelwise.layout.applyOnStartup`: apply your layout when a window opens, once its editors have restored, as Restore Layout does. On by default. It is skipped while hyperspace is on. Without a layout saved with Choose Layout, it applies only the older `containers` list, quietly.
 - `towelwise.layout.commands`: command ids to run after your panels when you restore, for agents that open as an editor tab instead of a side bar. Type the ids yourself; Towelwise cannot see which tabs are open, so a command that opens a new tab each time can duplicate one.
-- `towelwise.menus.hidden` and `towelwise.menus.towelwise`: hide built-in commands and menus, and shape the Towelwise menu. Towelwise AI only.
 
 ## Things to know
 

@@ -1,14 +1,17 @@
 /*---------------------------------------------------------------------------------------------
- *  Towelwise AI: commands hidden from menus, the Command Palette and default keyboard shortcuts.
- *
- *  The list comes from the `towelwise.menus.hidden` setting (see the Towelwise contribution). Hiding is not
- *  disabling: commands still run when other code calls them. Only what the person is shown changes.
+ *  Copyright (c) Towelwise contributors. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+
+// Towelwise AI: commands hidden from menus, the Command Palette and default keyboard shortcuts.
+//
+// The list comes from the `towelwise.menus.hidden` setting (see the Towelwise contribution). Hiding is not
+// disabling: commands still run when other code calls them. Only what the person is shown changes.
 
 import { Emitter, Event } from '../../../base/common/event.js';
 
-// The same list the built-in Towelwise extension ships as the setting's default (empty: everything is shown). It
-// applies from the start, so nothing flashes on screen before the setting has been read; the setting then replaces it.
+// The same list as the setting's default (empty: everything is shown). It applies from the start, so nothing
+// flashes on screen before the setting has been read; the setting then replaces it.
 export const DEFAULT_HIDDEN_COMMANDS: readonly string[] = [];
 
 class HiddenCommandsImpl {

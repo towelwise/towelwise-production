@@ -151,6 +151,25 @@ export default defineConfig(
 			]
 		},
 	},
+	// Towelwise AI: files Towelwise creates carry the Towelwise header instead of Microsoft's (build/hygiene.ts takes both).
+	{
+		files: [
+			'src/vs/workbench/contrib/towelwise/**/*.ts',
+			'src/vs/platform/commands/common/hiddenCommands.ts',
+		],
+		rules: {
+			'header/header': [
+				2,
+				'block',
+				[
+					'---------------------------------------------------------------------------------------------',
+					' *  Copyright (c) Towelwise contributors. All rights reserved.',
+					' *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.',
+					' *--------------------------------------------------------------------------------------------'
+				]
+			]
+		},
+	},
 	// Production filesystem operations must not block the event loop.
 	{
 		files: [

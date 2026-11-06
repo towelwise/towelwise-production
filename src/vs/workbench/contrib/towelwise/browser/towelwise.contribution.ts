@@ -1,8 +1,11 @@
 /*---------------------------------------------------------------------------------------------
- *  Towelwise AI: the hide list and the Towelwise menu, both read from settings that the built-in Towelwise
- *  extension ships. The settings are the whole interface: this file holds no list of its own beyond the
- *  startup default in hiddenCommands.ts, and no menu contents.
+ *  Copyright (c) Towelwise contributors. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+
+// Towelwise AI: the hide list and the Towelwise menu, both read from the settings registered below. The settings
+// are the whole interface: this file holds no list of its own beyond the startup default in hiddenCommands.ts,
+// and the default menu is the default value of its setting.
 
 import { Disposable, DisposableStore, IDisposable, MutableDisposable } from '../../../../base/common/lifecycle.js';
 import { HiddenCommands } from '../../../../platform/commands/common/hiddenCommands.js';
@@ -11,14 +14,11 @@ import { IConfigurationService } from '../../../../platform/configuration/common
 import { ContextKeyExpr, ContextKeyExpression, IContextKeyService } from '../../../../platform/contextkey/common/contextkey.js';
 import { ILogService } from '../../../../platform/log/common/log.js';
 import { IWorkbenchContribution, registerWorkbenchContribution2, WorkbenchPhase } from '../../../common/contributions.js';
-import { IExtensionService } from '../../../services/extensions/common/extensions.js';
-
-const HIDDEN_SETTING = 'towelwise.menus.hidden';
-const MENU_SETTING = 'towelwise.menus.towelwise';
+import { HIDDEN_SETTING, MENU_SETTING } from './menuSettings.js';
 
 const MenubarTowelwiseMenu = new MenuId('MenubarTowelwiseMenu');
 
-// One entry of the menu setting, as the extension's contract defines it.
+// One entry of the menu setting.
 interface MenuEntry {
 	command: string;
 	title: string;
@@ -26,7 +26,7 @@ interface MenuEntry {
 	when: ContextKeyExpression | undefined;
 }
 
-class TowelwiseContribution extends Disposable implements IWorkbenchContribution {
+export class TowelwiseContribution extends Disposable implements IWorkbenchContribution {
 
 	static readonly ID = 'workbench.contrib.towelwise';
 
@@ -41,7 +41,6 @@ class TowelwiseContribution extends Disposable implements IWorkbenchContribution
 		@IConfigurationService private readonly configurationService: IConfigurationService,
 		@IContextKeyService contextKeyService: IContextKeyService,
 		@ILogService private readonly logService: ILogService,
-		@IExtensionService extensionService: IExtensionService,
 	) {
 		super();
 
@@ -55,12 +54,6 @@ class TowelwiseContribution extends Disposable implements IWorkbenchContribution
 				this.applyMenu();
 			}
 		}));
-		// On a first launch this runs before the built-in extension has registered its settings, so they read as
-		// missing and a change event is not guaranteed to follow. Read them again once extensions are registered.
-		extensionService.whenInstalledExtensionsRegistered().then(() => {
-			this.applyHidden();
-			this.applyMenu();
-		});
 		// The menu bar drops a submenu with nothing to show and does not watch the conditions of entries inside it,
 		// so a menu whose entries were all hidden would never come back when one became true. Register the
 		// top-level item again whenever a condition one of the entries reads changes.

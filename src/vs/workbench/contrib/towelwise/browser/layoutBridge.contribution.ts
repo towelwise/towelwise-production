@@ -1,11 +1,14 @@
 /*---------------------------------------------------------------------------------------------
- *  Towelwise AI: a bridge that lets the built-in Towelwise extension read and set the sizes of the side bars
- *  and the panel, move a view container between the side bars and the panel, and work on the main window's editor
- *  groups when other editor windows are open. It holds no feature logic: it reports the layout service's state, sets
- *  one size, says where a container lives or moves it, counts the main window's editor groups and reads their grid, and brings the main
- *  window to the front.
- *  The leading underscore keeps the commands out of the Command Palette; it is not an access boundary.
+ *  Copyright (c) Towelwise contributors. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+
+// Towelwise AI: a bridge that lets the built-in Towelwise extension read and set the sizes of the side bars
+// and the panel, move a view container between the side bars and the panel, and work on the main window's editor
+// groups when other editor windows are open. It holds no feature logic: it reports the layout service's state, sets
+// one size, says where a container lives or moves it, counts the main window's editor groups and reads their grid, and brings the main
+// window to the front.
+// The leading underscore keeps the commands out of the Command Palette; it is not an access boundary.
 
 import { timeout } from '../../../../base/common/async.js';
 import { mainWindow } from '../../../../base/browser/window.js';
