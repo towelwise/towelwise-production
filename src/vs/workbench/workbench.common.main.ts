@@ -485,5 +485,6 @@ import './contrib/opener/browser/opener.contribution.js';
 
 // Towelwise AI
 import './contrib/towelwise/browser/towelwise.contribution.js';
+import './contrib/towelwise/browser/layoutBridge.contribution.js';
 
 //#endregion
