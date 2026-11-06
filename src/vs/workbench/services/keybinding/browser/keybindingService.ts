@@ -28,6 +28,7 @@ import { dirname } from '../../../../base/common/resources.js';
 import { ILocalizedString, isLocalizedString } from '../../../../platform/action/common/action.js';
 import { MenuRegistry } from '../../../../platform/actions/common/actions.js';
 import { CommandsRegistry, ICommandService } from '../../../../platform/commands/common/commands.js';
+import { HiddenCommands } from '../../../../platform/commands/common/hiddenCommands.js';
 import { ContextKeyExpr, ContextKeyExpression, IContextKey, IContextKeyService } from '../../../../platform/contextkey/common/contextkey.js';
 import { ExtensionIdentifier } from '../../../../platform/extensions/common/extensions.js';
 import { FileOperation, IFileService } from '../../../../platform/files/common/files.js';
@@ -224,6 +225,8 @@ export class WorkbenchKeybindingService extends AbstractKeybindingService {
 			logService.debug('User keybindings changed');
 			this.updateResolver();
 		}));
+		// Towelwise AI: shortcuts of hidden commands come and go with the hidden list.
+		this._register(HiddenCommands.onDidChange(() => this.updateResolver()));
 
 		keybindingsExtPoint.setHandler((extensions) => {
 

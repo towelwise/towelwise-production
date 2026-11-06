@@ -14,6 +14,7 @@ import { CommandsRegistry, ICommandService } from '../../commands/common/command
 import { ContextKeyExpr, ContextKeyExpression, IContextKeyService } from '../../contextkey/common/contextkey.js';
 import { createDecorator, ServicesAccessor } from '../../instantiation/common/instantiation.js';
 import { IKeybindingRule, KeybindingsRegistry } from '../../keybinding/common/keybindingsRegistry.js';
+import { HiddenCommands } from '../../commands/common/hiddenCommands.js';
 
 export interface IMenuItem {
 	command: ICommandAction;
@@ -486,6 +487,16 @@ export const MenuRegistry: IMenuRegistry = new class implements IMenuRegistry {
 
 	readonly onDidChangeMenu: Event<IMenuRegistryChangeEvent> = this._onDidChangeMenu.event;
 
+	constructor() {
+		// Towelwise AI: what the person is shown changes when the hidden list does.
+		HiddenCommands.onDidChange(() => {
+			for (const id of this._menuItems.keys()) {
+				this._onDidChangeMenu.fire(MenuRegistryChangeEvent.for(id));
+			}
+			this._onDidChangeMenu.fire(MenuRegistryChangeEvent.for(MenuId.CommandPalette));
+		});
+	}
+
 	addCommand(command: ICommandAction): IDisposable {
 		this._commands.set(command.id, command);
 		this._onDidChangeMenu.fire(MenuRegistryChangeEvent.for(MenuId.CommandPalette));
@@ -541,7 +552,28 @@ export const MenuRegistry: IMenuRegistry = new class implements IMenuRegistry {
 			// all commands by default
 			this._appendImplicitItems(result);
 		}
-		return result;
+		// Towelwise AI: hidden commands are not offered (they still run). Filtered last, after the implicit
+		// Command Palette items are added, so they cannot come back that way.
+		return this._withoutHidden(result);
+	}
+
+	private _withoutHidden(items: Array<IMenuItem | ISubmenuItem>): Array<IMenuItem | ISubmenuItem> {
+		const kept: Array<IMenuItem | ISubmenuItem> = [];
+		for (const item of items) {
+			if (isIMenuItem(item)) {
+				if (HiddenCommands.isHidden(item.command.id)) {
+					continue;
+				}
+				if (item.alt && HiddenCommands.isHidden(item.alt.id)) {
+					kept.push({ ...item, alt: undefined });
+					continue;
+				}
+			} else if (HiddenCommands.isMenuHidden(item.submenu.id)) {
+				continue;
+			}
+			kept.push(item);
+		}
+		return kept;
 	}
 
 	private _appendImplicitItems(result: Array<IMenuItem | ISubmenuItem>) {

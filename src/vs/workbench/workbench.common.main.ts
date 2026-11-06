@@ -483,4 +483,7 @@ import './contrib/editTelemetry/browser/editTelemetry.contribution.js';
 // Opener
 import './contrib/opener/browser/opener.contribution.js';
 
+// Towelwise AI
+import './contrib/towelwise/browser/towelwise.contribution.js';
+
 //#endregion
